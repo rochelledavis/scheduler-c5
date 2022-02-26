@@ -1,4 +1,4 @@
-var appointment = [];
+
 var saveBtnEl = $('.saveBtn');
 var currentDay = moment().format('dddd' + ' ' + 'LL')
 
@@ -37,35 +37,20 @@ blockColor();
 //Check time in 1 hour intervals. 
 var checkHour = setInterval(blockColor, 1000 * 60 * 60)
 
-//Upon clicking save button, save to local storage and persist when refreshed.
-// saveBtnEl.on('click', function() {
+//listen for click and save to local storage
+$('.saveBtn').on('click', function() {
+    var time = $(this)
+        .parent()
+        .attr('id');
+    console.log("time: " + time);
 
-//     //console.log(this)
-//     var hour = $(this).siblings('.time-block').val();
-//     var appt = $(this).siblings('.appt').text();
+    var input= $(this).siblings().children(".appt").val(); 
 
-//     console.log(hour)
-//     console.log(appt)
+    localStorage.setItem(time, input);
+});
 
-//     localStorage.setItem(hour, appt);
-// });
-
-
-//var eventInput = {};
-document.querySelector(".saveBtn").addEventListener("click", saveAppt);
-
-function saveAppt() {
-
-    var savedAppt = {
-        hour: document.querySelector(".time-block").value,
-        appt: document.querySelector(".appt").value 
-    }
-
-    //console.log(appointment)
-    localStorage.setItem("savedAppt", JSON.stringify(savedAppt));
-    localStorage.getItem(savedAppt)
-};
-// saveAppt()
-    // var loadEvent = function() {
-    //     eventInput = JSON.parse(localStorage.getItem("event"));
-    // }
+//Get items from local storage and display in textarea
+for (var i = 9; i < 18; i++) {
+    var savedAppt = localStorage.getItem(i);
+    $("#" + i).find(".appt").val(savedAppt)
+}
