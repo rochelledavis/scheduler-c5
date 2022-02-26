@@ -1,4 +1,5 @@
- 
+var appointment = [];
+var saveBtnEl = $('.saveBtn');
 var currentDay = moment().format('dddd' + ' ' + 'LL')
 
 document.getElementById('currentDay').innerHTML = currentDay
@@ -7,7 +8,7 @@ document.getElementById('currentDay').innerHTML = currentDay
 //console.log(currentTime)
 
 
-//If currentTime is > hour block, turn gray. loop? or if statements for each section?
+//Change block color dependent on current hr vs. calendar hour
 var blockColor = function() {
     var currentHour = moment().hours();
     //console.log(currentHour)
@@ -29,25 +30,42 @@ var blockColor = function() {
             $(this).addClass("future");
         };
     })
- }; 
+}; 
 
- blockColor();
+blockColor();
 
-var checkHour = setInterval(blockColor, 1000 * 60 * 60)
-    
-//If within the same hour block, turn red. 
-//If currentTime is < hour block turn green.
 //Check time in 1 hour intervals. 
+var checkHour = setInterval(blockColor, 1000 * 60 * 60)
 
-//Make middle block editable. 
-//Upon clicking "+", save to local storage and persist when refreshed.
+//Upon clicking save button, save to local storage and persist when refreshed.
+// saveBtnEl.on('click', function() {
 
-    // var eventInput = {};
+//     //console.log(this)
+//     var hour = $(this).siblings('.time-block').val();
+//     var appt = $(this).siblings('.appt').text();
 
-    // var saveEvent = function() {
-    //     localStorage.setItem("event", JSON.stringify(eventInput));
-    // };
+//     console.log(hour)
+//     console.log(appt)
 
+//     localStorage.setItem(hour, appt);
+// });
+
+
+//var eventInput = {};
+document.querySelector(".saveBtn").addEventListener("click", saveAppt);
+
+function saveAppt() {
+
+    var savedAppt = {
+        hour: document.querySelector(".time-block").value,
+        appt: document.querySelector(".appt").value 
+    }
+
+    //console.log(appointment)
+    localStorage.setItem("savedAppt", JSON.stringify(savedAppt));
+    localStorage.getItem(savedAppt)
+};
+// saveAppt()
     // var loadEvent = function() {
     //     eventInput = JSON.parse(localStorage.getItem("event"));
     // }
